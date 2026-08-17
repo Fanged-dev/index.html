@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diplomacia</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f4f7;
+    color: #222;
+}
+
+header {
+    background: #182848;
+    color: white;
+    text-align: center;
+    padding: 35px 15px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 40px;
+}
+
+header p {
+    font-size: 18px;
+}
+
+nav {
+    background: white;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 8px #00000015;
+}
+
+nav button {
+    border: none;
+    background: none;
+    color: #182848;
+    font-weight: bold;
+    margin: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px #00000015;
+}
+
+.button {
+    display: inline-block;
+    background: #182848;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button:hover {
+    opacity: 0.85;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.option {
+    margin-bottom: 8px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.poll {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 18px;
+    margin-top: 15px;
+}
+
+.poll label {
+    display: block;
+    margin: 10px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    background: #182848;
+    color: white;
+    margin-top: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🏛️ DIPLOMACIA</h1>
+    <p>Diplomacia dünyasının kampanya ve anket merkezi</p>
+</header>
+
+<nav>
+    <button onclick="showPage('home')">Ana Sayfa</button>
+    <button onclick="showPage('campaigns')">📢 Kampanyalar</button>
+    <button onclick="showPage('signatures')">✍️ İmzalar</button>
+    <button onclick="showPage('polls')">🗳️ Anketler</button>
+</nav>
+
+<div class="container">
+
+<!-- ANA SAYFA -->
+<section id="home" class="page active">
+
+    <div class="card">
+        <h2>📢 Kampanyalar</h2>
+        <p>Diplomacia'daki önemli kampanyaları takip edin.</p>
+        <button class="button" onclick="showPage('campaigns')">
+            Kampanyaları Gör
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>✍️ İmza Kampanyaları</h2>
+        <p>Desteklediğiniz kampanyalara imza verin.</p>
+        <button class="button" onclick="showPage('signatures')">
+            İmzaları Gör
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>🗳️ Anketler</h2>
+        <p>Diplomacia topluluğunun fikirlerini öğrenin.</p>
+        <button class="button" onclick="showPage('polls')">
+            Anketlere Git
+        </button>
+    </div>
+
+</section>
+
+
+<!-- KAMPANYALAR -->
+<section id="campaigns" class="page">
+
+    <div class="card">
+        <h2>📢 Kampanyalar</h2>
+        <p>Diplomacia'daki kampanyalar burada yayınlanacak.</p>
+
+        <div class="poll">
+            <h3>🏛️ Örnek Kampanya</h3>
+            <p>Diplomacia'nın geleceği için yeni öneriler.</p>
+            <button class="button" onclick="alert('Kampanyaya destek verdiniz!')">
+                Destekle
+            </button>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- İMZALAR -->
+<section id="signatures" class="page">
+
+    <div class="card">
+        <h2>✍️ İmza Kampanyaları</h2>
+
+        <div class="poll">
+            <h3>🌍 Diplomacia Dünya Birliği</h3>
+            <p>Yeni diplomatik işbirliklerinin desteklenmesi.</p>
+
+            <button class="button"
+                onclick="signCampaign(this)">
+                İmza Ver
+            </button>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ANKETLER -->
+<section id="polls" class="page">
+
+    <div class="card">
+
+        <h2>🗳️ Anketler</h2>
+
+        <p>Topluluğun anketlerine katılın veya kendi anketinizi oluşturun.</p>
+
+        <button class="button" onclick="showCreatePoll()">
+            ➕ Anket Kur
+        </button>
+
+    </div>
+
+    <div id="createPoll" class="card" style="display:none;">
+
+        <h2>➕ Yeni Anket Oluştur</h2>
+
+        <input id="pollTitle"
+               type="text"
+               placeholder="Anket başlığı">
+
+        <input id="pollQuestion"
+               type="text"
+               placeholder="Sorunuz">
+
+        <input class="pollOption"
+               type="text"
+               placeholder="Seçenek 1">
+
+        <input class="pollOption"
+               type="text"
+               placeholder="Seçenek 2">
+
+        <input class="pollOption"
+               type="text"
+               placeholder="Seçenek 3">
+
+        <input class="pollOption"
+               type="text"
+               placeholder="Seçenek 4">
+
+        <button class="button" onclick="createPoll()">
+            🚀 Anketi Yayınla
+        </button>
+
+    </div>
+
+    <div id="pollList"></div>
+
+</section>
+
+</div>
+
+<footer>
+    Diplomacia © 2026
+</footer>
+
+
+<script>
+
+function showPage(pageId) {
+
+    document.querySelectorAll(".page").forEach(function(page) {
+        page.classList.remove("active");
+    });
+
+    document.getElementById(pageId).classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    if (pageId === "polls") {
+        loadPolls();
+    }
+}
+
+
+function showCreatePoll() {
+
+    const box = document.getElementById("createPoll");
+
+    box.style.display =
+        box.style.display === "none" ? "block" : "none";
+}
+
+
+function createPoll() {
+
+    const title =
+        document.getElementById("pollTitle").value.trim();
+
+    const question =
+        document.getElementById("pollQuestion").value.trim();
+
+    const inputs =
+        document.querySelectorAll(".pollOption");
+
+    let options = [];
+
+    inputs.forEach(function(input) {
+
+        if (input.value.trim() !== "") {
+            options.push(input.value.trim());
+        }
+
+    });
+
+    if (!title || !question || options.length < 2) {
+
+        alert("Lütfen başlık, soru ve en az 2 seçenek girin.");
+
+        return;
+    }
+
+    const polls =
+        JSON.parse(localStorage.getItem("diplomaciaPolls")) || [];
+
+    polls.push({
+        id: Date.now(),
+        title: title,
+        question: question,
+        options: options,
+        votes: options.map(() => 0)
+    });
+
+    localStorage.setItem(
+        "diplomaciaPolls",
+        JSON.stringify(polls)
+    );
+
+    document.getElementById("pollTitle").value = "";
+    document.getElementById("pollQuestion").value = "";
+
+    inputs.forEach(function(input) {
+        input.value = "";
+    });
+
+    document.getElementById("createPoll").style.display = "none";
+
+    loadPolls();
+
+    alert("Anket başarıyla oluşturuldu!");
+}
+
+
+function loadPolls() {
+
+    const list =
+        document.getElementById("pollList");
+
+    const polls =
+        JSON.parse(localStorage.getItem("diplomaciaPolls")) || [];
+
+    list.innerHTML = "";
+
+    if (polls.length === 0) {
+
+        list.innerHTML = `
+            <div class="card">
+                <h3>Henüz anket yok.</h3>
+                <p>İlk anketi sen oluşturabilirsin!</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    polls.forEach(function(poll) {
+
+        let optionsHTML = "";
+
+        poll.options.forEach(function(option, index) {
+
+            optionsHTML += `
+                <label>
+                    <input
+                        type="radio"
+                        name="poll_${poll.id}"
+                        value="${index}">
+                    ${option}
+                </label>
+            `;
+
+        });
+
+        list.innerHTML += `
+            <div class="card poll">
+
+                <h2>${poll.title}</h2>
+
+                <h3>${poll.question}</h3>
+
+                ${optionsHTML}
+
+                <button
+                    class="button"
+                    onclick="vote(${poll.id})">
+                    🗳️ Oy Ver
+                </button>
+
+                <button
+                    class="button"
+                    onclick="showResults(${poll.id})">
+                    📊 Sonuçlar
+                </button>
+
+            </div>
+        `;
+
+    });
+}
+
+
+function vote(id) {
+
+    const polls =
+        JSON.parse(localStorage.getItem("diplomaciaPolls")) || [];
+
+    const poll =
+        polls.find(p => p.id === id);
+
+    const selected =
+        document.querySelector(
+            `input[name="poll_${id}"]:checked`
+        );
+
+    if (!selected) {
+
+        alert("Lütfen bir seçenek seçin.");
+
+        return;
+    }
+
+    poll.votes[Number(selected.value)]++;
+
+    localStorage.setItem(
+        "diplomaciaPolls",
+        JSON.stringify(polls)
+    );
+
+    alert("Oyun kaydedildi!");
+
+    loadPolls();
+}
+
+
+function showResults(id) {
+
+    const polls =
+        JSON.parse(localStorage.getItem("diplomaciaPolls")) || [];
+
+    const poll =
+        polls.find(p => p.id === id);
+
+    let result = "📊 ANKET SONUÇLARI\n\n";
+
+    poll.options.forEach(function(option, index) {
+
+        result +=
+            option + ": " +
+            poll.votes[index] +
+            " oy\n";
+
+    });
+
+    alert(result);
+}
+
+
+function signCampaign(button) {
+
+    button.innerText = "✅ İmzalandı";
+
+    button.disabled = true;
+
+    alert("Kampanyayı imzaladınız!");
+}
+
+</script>
+
+</body>
+</html>
